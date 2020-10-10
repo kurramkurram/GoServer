@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/url_input_form"
+            android:layout_width="116dp"
+            android:layout_height="@dimen/view_height"
+            android:layout_margin="2dp"
+            android:layout_weight="5"
+            android:hint="http://localhost:8080" />
+
+        <Spinner
+            android:id="@+id/type_select_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/view_height"
+            android:layout_margin="2dp"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="2" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/transfer_file_name"
+            android:layout_weight="5"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/view_height"
+            android:hint="transfer file name" />
+
+        <Button
+            android:id="@+id/start_connection_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/view_height"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:text="connect" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/file_name_input_form"
+            android:layout_width="200dp"
+            android:layout_height="@dimen/view_height"
+            android:layout_margin="2dp"
+            android:layout_weight="5"
+            android:hint="FileName" />
+
+        <Button
+            android:id="@+id/file_create_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/view_height"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:text="create" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/contents_input_form"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_margin="2dp"
+        android:gravity="bottom"
+        android:hint="input contents" />
+</LinearLayout>
