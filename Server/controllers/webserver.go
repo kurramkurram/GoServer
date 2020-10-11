@@ -25,6 +25,7 @@ func apiSampleHandler(w http.ResponseWriter, r *http.Request) {
 			file, fileHeader, err := r.FormFile ("upload_file")
 			if err != nil {
 				fmt.Println("can not upload")
+				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
 			fmt.Println(fileHeader)
@@ -34,12 +35,14 @@ func apiSampleHandler(w http.ResponseWriter, r *http.Request) {
 			data, err := ioutil.ReadAll(file)
 			if (err != nil) {
 				fmt.Println("file error")
+				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
 			fmt.Println(string(data))
 			saveFile, err := os.Create(fileName)
 			if err != nil {
 				fmt.Println("can not create file")
+				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
 			defer saveFile.Close()
@@ -47,12 +50,16 @@ func apiSampleHandler(w http.ResponseWriter, r *http.Request) {
 			_, err = saveFile.Write(data)
 			if err != nil {
 				fmt.Println("can not write file")
+				w.WriteHeader(http.StatusBadRequest)
 				return
 			}		
 
 		case "GET":
 			fmt.Println("GET")
 	}
+
+	w.WriteHeader(http.StatusOk)
+
 }
 
 func StartWebServer() error {
