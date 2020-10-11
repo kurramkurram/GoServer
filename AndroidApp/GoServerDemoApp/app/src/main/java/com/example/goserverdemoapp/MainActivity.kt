@@ -1,16 +1,20 @@
 package com.example.goserverdemoapp
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.example.goserverdemoapp.file.File
 import com.example.goserverdemoapp.net.Net
 import com.example.goserverdemoapp.net.RequestMethod
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.net.ssl.HttpsURLConnection
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -36,20 +40,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         file_create_button.setOnClickListener(this)
     }
 
+    @SuppressLint("ShowToast")
     override fun onClick(p0: View?) {
         when (p0!!) {
             start_connection_button -> {
-                GlobalScope.launch {
-                    val url = url_input_form.text.toString()
-                    val method = type_select_spinner.selectedItem.toString()
-                    Log.d(TAG, "#onClick url = $url requestMethod = $method")
-                    Net().startConnection(
+                val url = url_input_form.text.toString()
+                val method = type_select_spinner.selectedItem.toString()
+                Log.d(TAG, "#onClick url = $url requestMethod = $method")
+                GlobalScope.launch() {
+                    val (responseCode, result) = Net().startConnection(
                         applicationContext,
                         url,
                         method,
                         transfer_file_name.text.toString()
                     )
                 }
+
             }
 
             file_create_button -> {

@@ -91,7 +91,7 @@ class Net {
             }
 
             responseCode = urlConnection.responseCode
-            Log.d(TAG, "#startConnection$responseCode")
+            Log.d(TAG, "#startConnection responseCode = $responseCode")
 
             BufferedReader(InputStreamReader(urlConnection.inputStream)).use {
                 val sb = StringBuffer()
