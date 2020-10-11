@@ -29,7 +29,7 @@ class Net {
         requestUrl: String,
         requestMethod: String,
         fileName: String
-    ): String {
+    ): Pair<Int, String> {
         Log.d(
             TAG,
             "#startConnection url = $requestUrl requestMethod = $requestMethod fileName = $fileName"
@@ -39,6 +39,7 @@ class Net {
         // UrlConnection生成
         val urlConnection = url.openConnection() as HttpURLConnection
         var result = ""
+        var responseCode = 0
         try {
             // パラメータを設定
             when (requestMethod) {
@@ -86,8 +87,11 @@ class Net {
                     }
                 }
                 else ->
-                    return ""
+                    return responseCode to ""
             }
+
+            responseCode = urlConnection.responseCode
+            Log.d(TAG, "#startConnection$responseCode")
 
             BufferedReader(InputStreamReader(urlConnection.inputStream)).use {
                 val sb = StringBuffer()
@@ -103,6 +107,6 @@ class Net {
         }
 
         Log.d(TAG, result)
-        return result
+        return responseCode to result
     }
 }
