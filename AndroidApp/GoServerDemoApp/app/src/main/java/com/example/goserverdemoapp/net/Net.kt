@@ -8,6 +8,7 @@ import java.io.*
 import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.URLConnection
 import java.nio.charset.StandardCharsets
 import java.util.*
 import kotlin.math.min
@@ -48,42 +49,7 @@ class Net {
                     urlConnection.connect()
                 }
                 RequestMethod.POST.toString() -> {
-                    val boundary = "--------------------------"
-                    urlConnection.requestMethod = requestMethod
-                    urlConnection.doOutput = true
-                    urlConnection.doInput = true
-                    urlConnection.useCaches = false
-                    urlConnection.setRequestProperty(
-                        "Content-Type",
-                        "multipart/form-data; boundary=$boundary"
-                    )
-                    val filePath = context.filesDir
-                    val file = File("$filePath/$fileName$FILE_EXPAND")
-                    var bytesRead: Int
-                    FileInputStream(file).use { fileInputStream ->
-                        urlConnection.connect()
-                        DataOutputStream(urlConnection.outputStream).use {
-                            it.writeBytes(
-                                TWO_HYPHEN + boundary + LINE_END +
-                                        "Content-Disposition: form-data; name=\"upload_file\"; " +
-                                        "filename=\"$fileName$FILE_EXPAND\"$LINE_END" +
-                                        "Content-Type: application/octet-stream$LINE_END$LINE_END"
-                            )
-
-                            val buffer = ByteArray(BUFFER_SIZE)
-                            do {
-                                bytesRead = fileInputStream.read(buffer)
-                                if (bytesRead == -1) {
-                                    break
-                                }
-                                it.write(buffer, 0, bytesRead)
-                            } while (true)
-                            it.writeBytes(
-                                LINE_END + TWO_HYPHEN + boundary + TWO_HYPHEN + LINE_END
-                            )
-                            it.flush()
-                        }
-                    }
+                    requestPostFile(context, urlConnection, fileName)
                 }
                 else ->
                     return responseCode to ""
@@ -107,5 +73,49 @@ class Net {
 
         Log.d(TAG, result)
         return responseCode to result
+    }
+    
+    private fun requestPostFile(
+        context: Context,
+        urlConnection: HttpURLConnection,
+        fileName: String
+    ): HttpURLConnection {
+        val boundary = "--------------------------"
+        urlConnection.requestMethod = RequestMethod.POST.toString()
+        urlConnection.doOutput = true
+        urlConnection.doInput = true
+        urlConnection.useCaches = false
+        urlConnection.setRequestProperty(
+            "Content-Type",
+            "multipart/form-data; boundary=$boundary"
+        )
+        val filePath = context.filesDir
+        val file = File("$filePath/$fileName$FILE_EXPAND")
+        var bytesRead: Int
+        FileInputStream(file).use { fileInputStream ->
+            urlConnection.connect()
+            DataOutputStream(urlConnection.outputStream).use {
+                it.writeBytes(
+                    TWO_HYPHEN + boundary + LINE_END +
+                            "Content-Disposition: form-data; name=\"upload_file\"; " +
+                            "filename=\"$fileName$FILE_EXPAND\"$LINE_END" +
+                            "Content-Type: application/octet-stream$LINE_END$LINE_END"
+                )
+
+                val buffer = ByteArray(BUFFER_SIZE)
+                do {
+                    bytesRead = fileInputStream.read(buffer)
+                    if (bytesRead == -1) {
+                        break
+                    }
+                    it.write(buffer, 0, bytesRead)
+                } while (true)
+                it.writeBytes(
+                    LINE_END + TWO_HYPHEN + boundary + TWO_HYPHEN + LINE_END
+                )
+                it.flush()
+            }
+        }
+        return urlConnection
     }
 }
