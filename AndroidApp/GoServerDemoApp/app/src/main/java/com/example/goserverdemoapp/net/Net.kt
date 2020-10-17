@@ -74,7 +74,7 @@ class Net {
         Log.d(TAG, result)
         return responseCode to result
     }
-    
+
     private fun requestPostFile(
         context: Context,
         urlConnection: HttpURLConnection,
