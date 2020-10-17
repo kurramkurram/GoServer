@@ -53,7 +53,6 @@ class Net {
                     urlConnection.doOutput = true
                     urlConnection.doInput = true
                     urlConnection.useCaches = false
-                    urlConnection.setRequestProperty("ENCTYPE", "multipart/form-data")
                     urlConnection.setRequestProperty(
                         "Content-Type",
                         "multipart/form-data; boundary=$boundary"

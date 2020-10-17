@@ -58,7 +58,7 @@ func apiSampleHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("GET")
 	}
 
-	w.WriteHeader(http.StatusOk)
+	w.WriteHeader(http.StatusOK)
 
 }
 
