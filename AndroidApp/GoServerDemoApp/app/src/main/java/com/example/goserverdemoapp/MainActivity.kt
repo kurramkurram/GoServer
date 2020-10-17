@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         applicationContext,
                         url,
                         method,
-                        transfer_file_name.text.toString()
+                        file_name_input_form.text.toString()
                     )
                 }
 
@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val str = contents_input_form.text.toString()
                 Log.d(TAG, "#onClick fileName = $fileName contents = $str")
                 File().makeTxtFile(this, fileName, str)
-                transfer_file_name.text = file_name_input_form.text
             }
         }
     }

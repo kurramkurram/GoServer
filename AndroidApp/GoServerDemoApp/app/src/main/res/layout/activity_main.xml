@@ -26,30 +26,7 @@
             android:layout_margin="2dp"
             android:layout_marginEnd="3dp"
             android:layout_weight="2" />
-
-
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/transfer_file_name"
-            android:layout_weight="5"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/view_height"
-            android:hint="transfer file name" />
-
-        <Button
-            android:id="@+id/start_connection_button"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/view_height"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:text="connect" />
-    </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,19 +34,11 @@
 
         <EditText
             android:id="@+id/file_name_input_form"
-            android:layout_width="200dp"
-            android:layout_height="@dimen/view_height"
-            android:layout_margin="2dp"
-            android:layout_weight="5"
-            android:hint="FileName" />
-
-        <Button
-            android:id="@+id/file_create_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/view_height"
             android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:text="create" />
+            android:layout_weight="5"
+            android:hint="create file name" />
     </LinearLayout>
 
     <EditText
@@ -79,4 +48,33 @@
         android:layout_margin="2dp"
         android:gravity="bottom"
         android:hint="input contents" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/file_create_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/view_height"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:text="create" />
+
+        <Button
+            android:id="@+id/start_connection_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/view_height"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:text="upload" />
+
+        <Button
+            android:id="@+id/start_download_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/view_height"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:text="download" />
+    </LinearLayout>
 </LinearLayout>
