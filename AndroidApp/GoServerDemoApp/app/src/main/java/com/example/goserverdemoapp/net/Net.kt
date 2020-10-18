@@ -134,23 +134,25 @@ class Net {
             urlConnection.connect()
 
             responseCode = urlConnection.responseCode
-
-            val path = context.filesDir.toString() + "/" + fileName + FILE_EXPAND
-            DataInputStream(urlConnection.inputStream).use { fileInputStream ->
-                DataOutputStream(BufferedOutputStream(FileOutputStream(path))).use {
-                    val buffer = ByteArray(BUFFER_SIZE)
-                    var byteRead: Int
-                    do {
-                        byteRead = fileInputStream.read(buffer)
-                        if (byteRead == -1) {
-                            break
+            Log.d(TAG, "#startDownload responseCode = $responseCode")
+            when (responseCode) {
+                HttpURLConnection.HTTP_OK -> {
+                    val path = context.filesDir.toString() + "/" + fileName + FILE_EXPAND
+                    DataInputStream(urlConnection.inputStream).use { fileInputStream ->
+                        DataOutputStream(BufferedOutputStream(FileOutputStream(path))).use {
+                            val buffer = ByteArray(BUFFER_SIZE)
+                            var byteRead: Int
+                            do {
+                                byteRead = fileInputStream.read(buffer)
+                                if (byteRead == -1) {
+                                    break
+                                }
+                                it.write(buffer, 0, byteRead)
+                            } while (true)
                         }
-                        it.write(buffer, 0, byteRead)
-                    } while (true)
+                    }
                 }
             }
-
-
         } catch (e: Exception) {
             Log.e(TAG, "#startConnection$e")
         } finally {
