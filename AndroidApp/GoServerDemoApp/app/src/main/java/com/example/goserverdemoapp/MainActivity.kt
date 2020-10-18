@@ -53,13 +53,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             start_connection_button -> {
                 val url = url_input_form.text.toString()
-                val method = type_select_spinner.selectedItem.toString()
-                Log.d(TAG, "#onClick url = $url requestMethod = $method")
+//                val method = type_select_spinner.selectedItem.toString()
+//                Log.d(TAG, "#onClick url = $url requestMethod = $method")
+                Log.d(TAG, "#onClick upload url = $url fileName = $fileName")
                 GlobalScope.launch() {
-                    val (responseCode, result) = Net().startConnection(
+                    val (responseCode, result) = Net().requestPostFile(
                         applicationContext,
                         url,
-                        method,
                         fileName
                     )
                 }
@@ -67,9 +67,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             start_download_button -> {
                 val url = url_input_form.text.toString()
-                Log.d(TAG, "#onClick url = $url fileName = $fileName")
+                Log.d(TAG, "#onClick download url = $url fileName = $fileName")
                 GlobalScope.launch {
-                    Net().startDownload(applicationContext, url, fileName)
+                    Net().requestFileDownload(applicationContext, url, fileName)
                 }
             }
         }
