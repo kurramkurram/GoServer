@@ -79,7 +79,7 @@ class Net {
         context: Context,
         urlConnection: HttpURLConnection,
         fileName: String
-    ): HttpURLConnection {
+    ) {
         val boundary = "--------------------------"
         urlConnection.requestMethod = RequestMethod.POST.toString()
         urlConnection.doOutput = true
@@ -91,7 +91,6 @@ class Net {
         )
         val filePath = context.filesDir
         val file = File("$filePath/$fileName$FILE_EXPAND")
-        var bytesRead: Int
         FileInputStream(file).use { fileInputStream ->
             urlConnection.connect()
             DataOutputStream(urlConnection.outputStream).use {
@@ -103,6 +102,7 @@ class Net {
                 )
 
                 val buffer = ByteArray(BUFFER_SIZE)
+                var bytesRead: Int
                 do {
                     bytesRead = fileInputStream.read(buffer)
                     if (bytesRead == -1) {
@@ -116,6 +116,46 @@ class Net {
                 it.flush()
             }
         }
-        return urlConnection
+    }
+
+    fun startDownload(
+        context: Context,
+        requestUrl: String,
+        fileName: String
+    ): Int {
+        val url = URL("$requestUrl/$fileName$FILE_EXPAND")
+        // UrlConnection生成
+        val urlConnection = url.openConnection() as HttpURLConnection
+        var responseCode = 0
+        try {
+            urlConnection.requestMethod = RequestMethod.GET.toString()
+            urlConnection.doInput = true
+            urlConnection.useCaches = false
+            urlConnection.connect()
+
+            responseCode = urlConnection.responseCode
+
+            val path = context.filesDir.toString() + "/" + fileName + FILE_EXPAND
+            DataInputStream(urlConnection.inputStream).use { fileInputStream ->
+                DataOutputStream(BufferedOutputStream(FileOutputStream(path))).use {
+                    val buffer = ByteArray(BUFFER_SIZE)
+                    var byteRead: Int
+                    do {
+                        byteRead = fileInputStream.read(buffer)
+                        if (byteRead == -1) {
+                            break
+                        }
+                        it.write(buffer, 0, byteRead)
+                    } while (true)
+                }
+            }
+
+
+        } catch (e: Exception) {
+            Log.e(TAG, "#startConnection$e")
+        } finally {
+            urlConnection.disconnect()
+        }
+        return responseCode
     }
 }

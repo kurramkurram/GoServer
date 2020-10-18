@@ -36,13 +36,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         type_select_spinner.adapter = adapter
 
-        start_connection_button.setOnClickListener(this)
         file_create_button.setOnClickListener(this)
+        start_connection_button.setOnClickListener(this)
+        start_download_button.setOnClickListener(this)
     }
 
     @SuppressLint("ShowToast")
     override fun onClick(p0: View?) {
+        val fileName = file_name_input_form.text.toString()
         when (p0!!) {
+            file_create_button -> {
+                val str = contents_input_form.text.toString()
+                Log.d(TAG, "#onClick fileName = $fileName contents = $str")
+                File().makeTxtFile(this, fileName, str)
+            }
+
             start_connection_button -> {
                 val url = url_input_form.text.toString()
                 val method = type_select_spinner.selectedItem.toString()
@@ -52,17 +60,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         applicationContext,
                         url,
                         method,
-                        file_name_input_form.text.toString()
+                        fileName
                     )
                 }
-
             }
 
-            file_create_button -> {
-                val fileName = file_name_input_form.text.toString()
-                val str = contents_input_form.text.toString()
-                Log.d(TAG, "#onClick fileName = $fileName contents = $str")
-                File().makeTxtFile(this, fileName, str)
+            start_download_button -> {
+                val url = url_input_form.text.toString()
+                Log.d(TAG, "#onClick url = $url fileName = $fileName")
+                GlobalScope.launch {
+                    Net().startDownload(applicationContext, url, fileName)
+                }
             }
         }
     }

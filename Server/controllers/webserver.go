@@ -57,9 +57,7 @@ func apiSampleHandler(w http.ResponseWriter, r *http.Request) {
 		case "GET":
 			fmt.Println("GET")
 	}
-
 	w.WriteHeader(http.StatusOK)
-
 }
 
 func StartWebServer() error {
