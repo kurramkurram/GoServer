@@ -90,7 +90,7 @@ class Net {
         } finally {
             urlConnection.disconnect()
         }
-        Log.d(TAG, result)
+        Log.d(TAG, "#startConnection result = $result")
         return responseCode to result
     }
 
